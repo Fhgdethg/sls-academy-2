@@ -5,6 +5,8 @@ import refreshTokenRepository from '../repositories/refreshToken.repository.js';
 import mainHelpers from '../helpers/main.helpers.js';
 import validationHelpers from '../helpers/validation.helpers.js';
 
+import { IDecodedRefreshToken } from '../types/tokens.types.js';
+
 const JWT_SECRET = `${process.env.JWT_SECRET}`;
 
 export class AuthService {
@@ -33,7 +35,7 @@ export class AuthService {
       type: 'access',
     };
 
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: '60m' });
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: '60s' });
   }
 
   generateRefreshToken() {
@@ -47,9 +49,11 @@ export class AuthService {
 
   async signUpTokensHandler(userId: string) {
     const accessToken = this.generateAccessToken(userId);
-    console.log('work');
     const refreshToken = this.generateRefreshToken();
-    const refreshTokenData = jwt.verify(refreshToken, JWT_SECRET);
+    const refreshTokenData = jwt.verify(
+      refreshToken,
+      JWT_SECRET,
+    ) as IDecodedRefreshToken;
 
     await refreshTokenRepository.addToken(refreshTokenData.id, userId);
 
@@ -67,7 +71,10 @@ export class AuthService {
   async updateTokens(userId: string) {
     const accessToken = this.generateAccessToken(userId);
     const refreshToken = this.generateRefreshToken();
-    const refreshTokenData = jwt.verify(refreshToken, JWT_SECRET);
+    const refreshTokenData = jwt.verify(
+      refreshToken,
+      JWT_SECRET,
+    ) as IDecodedRefreshToken;
 
     await this.replaceDbRefreshToken(refreshTokenData.id, userId);
 
