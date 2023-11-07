@@ -1,4 +1,5 @@
 .DS_Store
 .idea/
 01_auth_api/node_modules/
+02_find_user_country_by_ip/node_modules/
 data/
