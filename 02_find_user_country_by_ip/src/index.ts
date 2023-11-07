@@ -2,8 +2,6 @@ import express from 'express';
 
 import placeRouter from './routers/place.router.js';
 
-import { connect } from './db/db.js';
-
 import { routes } from './constants/routes.js';
 
 const PORT = process.env.PORT || 2020;

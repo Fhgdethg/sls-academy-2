@@ -2,4 +2,5 @@
 .idea/
 01_auth_api/node_modules/
 02_find_user_country_by_ip/node_modules/
+03_json_storage/node_modules/
 data/
