@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 
 import linkService from '../serviсes/link.service.js';
 
-import { connect } from '../data/db.js';
+import { connect } from '../db/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,8 +23,8 @@ export class LinkController {
           message: 'Bad Request',
         });
 
-      const filePath = path.join(__dirname, `../data/${url}`);
-      const aliasesPath = path.join(__dirname, `../data/aliases.json`);
+      const filePath = path.join(__dirname, `../db/${url}`);
+      const aliasesPath = path.join(__dirname, `../db/aliases.json`);
 
       const isFileExist = await linkService.checkFileExists(filePath);
 
@@ -76,11 +76,11 @@ export class LinkController {
       const isUrlAlias = Boolean(aliasesData[url]);
 
       if (isUrlAlias) {
-        const currentFile = path.join(__dirname, `../data/${aliasesData[url]}`);
+        const currentFile = path.join(__dirname, `../db/${aliasesData[url]}`);
         return res.sendFile(currentFile);
       }
 
-      const currentFile = path.join(__dirname, `../data/${url}`);
+      const currentFile = path.join(__dirname, `../db/${url}`);
       const isFileExist = await linkService.checkFileExists(currentFile);
 
       if (!isFileExist)
